@@ -1,0 +1,7 @@
+DB_USER=postgres
+DB_PASSWORD=
+DB_HOST=localhost
+DB_PORT=5432
+DB_DATABASE=db_cacala
+
+jwtSecret = CACALA

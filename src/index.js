@@ -28,7 +28,7 @@ app.use("/jabatan", jabatanRoute)
 app.use("/dapil", dapilRoute)
 app.use("/partai", partaiRoute)
 
-app.use('*', (req, res, next) => {
+app.use('/*', (req, res, next) => {
    res.sendFile(path.join(__dirname, 'angular build file path'));
 });
 

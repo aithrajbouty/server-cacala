@@ -28,9 +28,14 @@ app.use("/jabatan", jabatanRoute)
 app.use("/dapil", dapilRoute)
 app.use("/partai", partaiRoute)
 
-app.use('/*', (req, res, next) => {
-   res.sendFile(path.join(__dirname, 'angular build file path'));
-});
+app.get('/*', (req, res) => res.send('Index Page'));
+
+// if (process.env.NODE_ENV === "production") {
+//    app.use(express.static("client/build"));
+//    app.get("*", function (req, res) {
+//       res.sendFile(path.join(__dirname, "./client/build/index.html"));
+//  });
+//  }
 
 app.listen(process.env.PORT || 3000, () => {
    console.log("server is running on port 3000")

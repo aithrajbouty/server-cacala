@@ -19,14 +19,14 @@ const jabatanRoute = require("../src/routes/jabatan_route")
 const dapilRoute = require("../src/routes/dapil_route")
 const partaiRoute = require("../src/routes/partai_route")
 
-app.use("/auth", authRoute)
-app.use("/user", userRoute)
-app.use("/admin", adminRoute)
-app.use("/calon", calonRoute)
-app.use("/post", postRoute)
-app.use("/jabatan", jabatanRoute)
-app.use("/dapil", dapilRoute)
-app.use("/partai", partaiRoute)
+app.use("*/auth", authRoute)
+app.use("*/user", userRoute)
+app.use("*/admin", adminRoute)
+app.use("*/calon", calonRoute)
+app.use("*/post", postRoute)
+app.use("*/jabatan", jabatanRoute)
+app.use("*/dapil", dapilRoute)
+app.use("*/partai", partaiRoute)
 
 // app.get('/*', (req, res) => res.send('Index Page'));
 
@@ -37,10 +37,10 @@ app.use("/partai", partaiRoute)
 //  });
 //  }
 
- app.use(express.static('./client/build'));
- app.get('*', (req, res) => {
-     res.sendFile(path.resolve(__dirname, '..', 'client', 'build', 'index.html'));
- });
+//  app.use(express.static('./client/build'));
+//  app.get('*', (req, res) => {
+//      res.sendFile(path.resolve(__dirname, '..', 'client', 'build', 'index.html'));
+//  });
 
 app.listen(process.env.PORT || 3000, () => {
    console.log("server is running on port 3000")

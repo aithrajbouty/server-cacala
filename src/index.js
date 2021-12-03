@@ -29,7 +29,7 @@ app.use("/dapil", dapilRoute)
 app.use("/partai", partaiRoute)
 
 app.get('*', function(req,res) {
-   res.sendFile(path.join(__dirname, '/buil.index.html'), function(err){
+   res.sendFile(path.join(__dirname, '/build.index.html'), function(err){
       if (err){
          res.status(500).send(__dirname)
       }

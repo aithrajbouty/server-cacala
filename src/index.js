@@ -28,7 +28,7 @@ app.use("/jabatan", jabatanRoute)
 app.use("/dapil", dapilRoute)
 app.use("/partai", partaiRoute)
 
-// app.get('/*', (req, res) => res.send('Index Page'));
+app.get('/*', (req, res) => res.send('Index Page'));
 
 // if (process.env.NODE_ENV === "production") {
 //    app.use(express.static("client/build"));

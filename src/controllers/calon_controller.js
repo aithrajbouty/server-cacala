@@ -482,3 +482,32 @@ exports.selectCalonDPDByProv = async (req, res) => {
       res.json({ message: err })
    }
 }
+
+exports.selectForSearch = async (req, res) => {
+   var search = req.params.str
+   try{
+      const calon = await pool.query(
+         "SELECT calon.id_calon, calon.nama, calon.foto, calon.slogan, calon.no_urut, admins.id_admin, jabatan.jabatan_tujuan, kota.kota, provinsi.provinsi FROM calon JOIN admins on calon.id_admin = admins.id_admin JOIN jabatan on calon.id_jabatan = jabatan.id_jabatan JOIN kota on calon.id_dapil_kota = kota.id_kota JOIN provinsi on kota.id_provinsi = provinsi.id_provinsi WHERE LOWER (calon.nama) LIKE LOWER ($1) ORDER BY no_urut;",[
+            `%${search}%`
+         ])
+
+         const length = Object.keys(calon.rows).length
+         
+         for(let i=0; i<length; i++){
+            id_calon = calon.rows[i].id_calon
+   
+            partai = await pool.query(
+               "select partai.nama_partai, partai.logo_partai FROM partai_calon JOIN calon ON partai_calon.id_calon = calon.id_calon JOIN partai ON partai_calon.id_partai = partai.id_partai WHERE partai_calon.id_calon = $1;",
+                [calon.rows[i].id_calon]
+            )
+   
+            j = 0
+            calon.rows[i] = {...calon.rows[i], partai: partai.rows}
+            calon.rows[i] = {...calon.rows[i], status: false}
+         }
+      
+         res.json(calon.rows)
+   } catch(err) {
+      res.json({ message: err })
+   }
+}    

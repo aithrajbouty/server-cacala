@@ -26,5 +26,6 @@ router.get("/dprdProv/:id_provinsi", controller.selectCalonDPRDProvByProv)
 router.get("/dprdProv/kota/:id_kota", controller.selectCalonDPRDProvByKota)
 router.get("/dprRI/provinsi/:id_provinsi", controller.selectCalonDPRRIByProv)
 router.get("/dpd/provinsi/:id_provinsi", controller.selectCalonDPDByProv)
+router.get("/search/:str", controller.selectForSearch)
 
 module.exports = router

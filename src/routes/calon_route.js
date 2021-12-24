@@ -15,7 +15,7 @@ router.delete("/:id_calon", controller.deleteCalon)
 router.get("/kota/:id_kota", controller.selectCalonByKota)
 router.get("/jabatan/:id_jabatan", controller.selectCalonByJabatan)
 
-router.get("/partai/:id_partai", controller.selectCalonByPartai)
+router.get("/jabatan/:id_jabatan/partai/:id_partai", controller.selectCalonByPartai)
 //router.get("/partai", controller.selectPartai)
 
 router.post("/riwayat-pendidikan", controller.addRiwayatPendidikanCalon)

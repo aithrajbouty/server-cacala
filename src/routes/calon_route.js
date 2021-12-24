@@ -16,6 +16,8 @@ router.get("/kota/:id_kota", controller.selectCalonByKota)
 router.get("/jabatan/:id_jabatan", controller.selectCalonByJabatan)
 
 router.get("/jabatan/:id_jabatan/partai/:id_partai", controller.selectCalonByPartai)
+router.get("/dprdProv/:id_provinsi/partai/:id_partai", controller.selectCalonDprProvByPartai)
+router.get("/dprdKota/:id_kota/partai/:id_partai", controller.selectCalonDprKotaByPartai)
 //router.get("/partai", controller.selectPartai)
 
 router.post("/riwayat-pendidikan", controller.addRiwayatPendidikanCalon)

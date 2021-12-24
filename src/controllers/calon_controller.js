@@ -226,6 +226,7 @@ exports.selectCalonByJabatan = async (req, res) => {
    }
 }
 
+//buat presiden, dpd ri, dan dpr ri
 exports.selectCalonByPartai = async (req, res) => {
    const { id_jabatan } = req.params
    const { id_partai } = req.params
@@ -249,9 +250,67 @@ exports.selectCalonByPartai = async (req, res) => {
          calon.rows[i] = {...calon.rows[i], partai: partai.rows}
          calon.rows[i] = {...calon.rows[i], status: false}
       }
+         
+      res.json(calon.rows)
+   } catch(err) {
+      res.json({ message: err })
+   }
+}
 
-      // const calonbypartai; 
-   
+exports.selectCalonDprProvByPartai = async (req, res) => {
+   const { id_provinsi } = req.params
+   const { id_partai } = req.params
+   try{
+      const calon = await pool.query(
+         "SELECT calon.id_calon, calon.nama, calon.foto, calon.slogan, calon.no_urut, admins.id_admin, jabatan.jabatan_tujuan, kota.kota, provinsi.provinsi FROM calon JOIN admins on calon.id_admin = admins.id_admin JOIN jabatan on calon.id_jabatan = jabatan.id_jabatan JOIN kota on calon.id_dapil_kota = kota.id_kota JOIN provinsi on kota.id_provinsi = provinsi.id_provinsi JOIN partai_calon ON partai_calon.id_calon = calon.id_calon JOIN partai ON partai_calon.id_partai = partai.id_partai WHERE calon.id_jabatan = 'aa0faabb-82e5-45bc-8b0a-c5795aa4c91a' AND partai_calon.id_partai = $1 AND kota.id_provinsi = $2;",[
+            id_partai, id_provinsi
+         ])
+
+      const length = Object.keys(calon.rows).length
+      
+      for(let i=0; i<length; i++){
+         id_calon = calon.rows[i].id_calon
+
+         partai = await pool.query(
+            "select partai.id_partai, partai.nama_partai, partai.logo_partai FROM partai_calon JOIN calon ON partai_calon.id_calon = calon.id_calon JOIN partai ON partai_calon.id_partai = partai.id_partai WHERE partai_calon.id_calon = $1;",
+               [calon.rows[i].id_calon]
+         )
+
+         j = 0
+         calon.rows[i] = {...calon.rows[i], partai: partai.rows}
+         calon.rows[i] = {...calon.rows[i], status: false}
+      }
+
+      res.json(calon.rows)
+   } catch(err) {
+      res.json({ message: err })
+   }
+}
+
+exports.selectCalonDprKotaByPartai = async (req, res) => {
+   const { id_kota } = req.params
+   const { id_partai } = req.params
+   try{
+      const calon = await pool.query(
+         "SELECT calon.id_calon, calon.nama, calon.foto, calon.slogan, calon.no_urut, admins.id_admin, jabatan.jabatan_tujuan, kota.kota, provinsi.provinsi FROM calon JOIN admins on calon.id_admin = admins.id_admin JOIN jabatan on calon.id_jabatan = jabatan.id_jabatan JOIN kota on calon.id_dapil_kota = kota.id_kota JOIN provinsi on kota.id_provinsi = provinsi.id_provinsi JOIN partai_calon ON partai_calon.id_calon = calon.id_calon JOIN partai ON partai_calon.id_partai = partai.id_partai WHERE calon.id_jabatan = '1267363f-491f-4b70-aecc-3ef02b4c32ee' AND partai_calon.id_partai = $1 AND kota.id_kota = $2;",[
+            id_partai, id_kota
+         ])
+
+      const length = Object.keys(calon.rows).length
+      
+      for(let i=0; i<length; i++){
+         id_calon = calon.rows[i].id_calon
+
+         partai = await pool.query(
+            "select partai.id_partai, partai.nama_partai, partai.logo_partai FROM partai_calon JOIN calon ON partai_calon.id_calon = calon.id_calon JOIN partai ON partai_calon.id_partai = partai.id_partai WHERE partai_calon.id_calon = $1;",
+               [calon.rows[i].id_calon]
+         )
+
+         j = 0
+         calon.rows[i] = {...calon.rows[i], partai: partai.rows}
+         calon.rows[i] = {...calon.rows[i], status: false}
+      }
+
       res.json(calon.rows)
    } catch(err) {
       res.json({ message: err })

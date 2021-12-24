@@ -3,7 +3,7 @@ const { pool } = require("../dbConfig")
 exports.selectAllCalon = async (req, res) => {
    try{
       const calon = await pool.query(
-         "select c.id_calon, c.nama, c.foto, c.slogan, c.no_urut, a.id_admin, j.jabatan_tujuan, k.kota, p.provinsi FROM calon c JOIN admins a on c.id_admin = a.id_admin JOIN jabatan j on c.id_jabatan = j.id_jabatan JOIN kota k on c.id_dapil_kota = k.id_kota JOIN provinsi p on k.id_provinsi = p.id_provinsi;"
+         "select c.id_calon, c.nama, c.foto, c.slogan, c.no_urut, a.id_admin, j.jabatan_tujuan, k.kota, p.provinsi, partai.nama_partai FROM calon c JOIN admins a on c.id_admin = a.id_admin JOIN jabatan j on c.id_jabatan = j.id_jabatan JOIN kota k on c.id_dapil_kota = k.id_kota JOIN provinsi p on k.id_provinsi = p.id_provinsi JOIN partai_calon ON partai_calon.id_calon = c.id_calon JOIN partai ON partai_calon.id_partai = partai.id_partai;"
       )
 
       const length = Object.keys(calon.rows).length
@@ -292,7 +292,7 @@ exports.selectCalonDprKotaByPartai = async (req, res) => {
    const { id_partai } = req.params
    try{
       const calon = await pool.query(
-         "SELECT calon.id_calon, calon.nama, calon.foto, calon.slogan, calon.no_urut, admins.id_admin, jabatan.jabatan_tujuan, kota.kota, provinsi.provinsi FROM calon JOIN admins on calon.id_admin = admins.id_admin JOIN jabatan on calon.id_jabatan = jabatan.id_jabatan JOIN kota on calon.id_dapil_kota = kota.id_kota JOIN provinsi on kota.id_provinsi = provinsi.id_provinsi JOIN partai_calon ON partai_calon.id_calon = calon.id_calon JOIN partai ON partai_calon.id_partai = partai.id_partai WHERE calon.id_jabatan = '1267363f-491f-4b70-aecc-3ef02b4c32ee' AND partai_calon.id_partai = $1 AND kota.id_kota = $2;",[
+         "SELECT calon.id_calon, calon.nama, calon.foto, calon.slogan, calon.no_urut, admins.id_admin, jabatan.jabatan_tujuan, kota.kota, provinsi.provinsi, partai.nama_partai FROM calon JOIN admins on calon.id_admin = admins.id_admin JOIN jabatan on calon.id_jabatan = jabatan.id_jabatan JOIN kota on calon.id_dapil_kota = kota.id_kota JOIN provinsi on kota.id_provinsi = provinsi.id_provinsi JOIN partai_calon ON partai_calon.id_calon = calon.id_calon JOIN partai ON partai_calon.id_partai = partai.id_partai JOIN partai_calon ON partai_calon.id_calon = c.id_calon JOIN partai ON partai_calon.id_partai = partai.id_partai WHERE calon.id_jabatan = '1267363f-491f-4b70-aecc-3ef02b4c32ee' AND partai_calon.id_partai = $1 AND kota.id_kota = $2;",[
             id_partai, id_kota
          ])
 
